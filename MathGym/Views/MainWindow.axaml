@@ -3,7 +3,7 @@
         xmlns:vm="using:MathGym.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
         x:Class="MathGym.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="MathGym">
@@ -20,12 +20,12 @@
       </TextBlock>
     </Border>
     
-    <Grid ShowGridLines="True" Margin="5" ColumnDefinitions="120, 100" RowDefinitions="Auto Auto Auto">
+    <Grid Margin="5" ColumnDefinitions="120, 100" RowDefinitions="Auto Auto Auto">
       <Label Grid.Row="0" Grid.Column="0" Margin="10"> Celcius </Label>
-      <TextBox Grid.Row="0" Grid.Column="1" Margin="0 5"> 0 </TextBox>
+      <TextBox Name="Celcius" Grid.Row="0" Grid.Column="1" Margin="0 5" TextChanged="Text_Changed"> 0 </TextBox>
       <Label Grid.Row="1" Grid.Column="0" Margin="10"> Fahrenheit </Label>
-      <TextBox Grid.Row="1" Grid.Column="1" Margin="0 5"> 0 </TextBox>
-      <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center"> Calculate </Button>
+      <TextBox IsReadOnly="True" Name="Fahrenheit" Grid.Row="1" Grid.Column="1" Margin="0 5"> 0 </TextBox>
+      <Button Grid.Row="2" Grid.Column="1" Click="Button_OnClick" HorizontalAlignment="Center"> Calculate </Button>
     </Grid>
   </StackPanel>
 
