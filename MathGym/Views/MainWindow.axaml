@@ -3,30 +3,28 @@
         xmlns:vm="using:MathGym.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="720" d:DesignHeight="480"
         x:Class="MathGym.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Title="MathGym">
-
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-  <StackPanel>
-    <Border Margin="5" CornerRadius="10" Background="LightCoral">
-      <TextBlock Margin="5" FontSize="24" HorizontalAlignment="Center" Text="Temperature Converter">
-      </TextBlock>
+        Title="MathGym"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="0"
+        SystemDecorations="None"
+  >
+  <DockPanel>
+    <Border DockPanel.Dock="Top" Background="DarkGray" Height="32">
+      <Grid>
+        <Rectangle Name="DragArea" Fill="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Rectangle>
+        <TextBlock Text="My Custom Title Bar" Foreground="White" VerticalAlignment="Center" Margin="10, 0"> </TextBlock>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0">
+          <Button Content="🗕" Command="" Background="Transparent"/>
+          <Button Content="🗖" Command="" Background="Transparent"/>
+          <Button Content="🗙" Command="" Background="Transparent" Foreground="Red"/>
+        </StackPanel>
+      </Grid>
     </Border>
-    
-    <Grid Margin="5" ColumnDefinitions="120, 100" RowDefinitions="Auto Auto Auto">
-      <Label Grid.Row="0" Grid.Column="0" Margin="10"> Celcius </Label>
-      <TextBox Name="Celcius" Grid.Row="0" Grid.Column="1" Margin="0 5" TextChanged="Text_Changed"> 0 </TextBox>
-      <Label Grid.Row="1" Grid.Column="0" Margin="10"> Fahrenheit </Label>
-      <TextBox IsReadOnly="True" Name="Fahrenheit" Grid.Row="1" Grid.Column="1" Margin="0 5"> 0 </TextBox>
-      <Button Grid.Row="2" Grid.Column="1" Click="Button_OnClick" HorizontalAlignment="Center"> Calculate </Button>
+    <Grid Background="White">
+      <TextBlock Text="App Content Here" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
     </Grid>
-  </StackPanel>
-
+  </DockPanel>
 </Window>
