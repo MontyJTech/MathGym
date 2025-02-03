@@ -52,7 +52,16 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private void CheckAnswerGiven()
     {
-
+        //compare the inputted two values to the answer. 
+        bool correct = false;
+        if (correct)
+        {
+            HandleSuccessUI();
+        }
+        else
+        {
+            HandleFailureUI();
+        }
     }
 
     private void HandleSuccessUI()
