@@ -74,29 +74,28 @@ public partial class MainWindowViewModel : ReactiveObject
             HandleAnswerSubmitted();
         });
 
-        keyEvents
-            .Select(e => e.Key)
-            .Subscribe(key =>
-            {
-                string character = key.ToString();
-                string input = character[character.Length - 1].ToString();
+        keyEvents.Select(e => e.Key).Where(key => key == Key.Enter).Subscribe(key =>
+        {
+            HandleAnswerSubmitted();
+        });
 
-                if(key == Key.Back && TestInput.Length != 0)
-                {
-                    string curInput = TestInput;
-                    TestInput = curInput.Remove(curInput.Length - 1);
-                }
-                if (Regex.IsMatch(input, "^[0-9]*$"))
-                {
-                    string curInput = TestInput;
-                    curInput += input;
-                    TestInput = curInput;
-                }
-                if(key == Key.Return)
-                {
-                    HandleAnswerSubmitted();
-                }
-            });
+        keyEvents.Select(e => e.Key).Where(key => key == Key.Back).Subscribe(key =>
+        {
+            if(TestInput.Length != 0)
+            {
+                string curInput = TestInput;
+                TestInput = curInput.Remove(curInput.Length - 1);
+            }
+        });
+
+        keyEvents.Select(e => e.Key).Where(key => (key >= Key.D0 && key <= Key.D9) || (key >= Key.NumPad0 && key <= Key.NumPad9)).Subscribe(key =>
+        {
+            string character = key.ToString();
+            string input = character[character.Length - 1].ToString();
+            string curInput = TestInput;
+            curInput += input;
+            TestInput = curInput;
+        });
 
         StartGame();
     }
