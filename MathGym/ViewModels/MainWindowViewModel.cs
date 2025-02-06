@@ -90,11 +90,7 @@ public partial class MainWindowViewModel : ReactiveObject
 
         keyEvents.Select(e => e.Key).Where(key => (key >= Key.D0 && key <= Key.D9) || (key >= Key.NumPad0 && key <= Key.NumPad9)).Subscribe(key =>
         {
-            string character = key.ToString();
-            string input = character[character.Length - 1].ToString();
-            string curInput = TestInput;
-            curInput += input;
-            TestInput = curInput;
+            TestInput += key.ToString()[^1].ToString();
         });
 
         StartGame();
