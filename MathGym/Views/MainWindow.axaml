@@ -23,12 +23,18 @@
       </Grid>
     </Border>
     <Grid Background="#1e1e1e">
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-        <TextBlock FontSize="64" Foreground="#e1e1e9">1</TextBlock>
-        <TextBlock FontSize="64" Foreground="#e1e1e9">+</TextBlock>
-        <TextBlock FontSize="64" Foreground="#e1e1e9">1</TextBlock>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="0">
+        <TextBlock Text="{Binding AugendValue}" VerticalAlignment="Center" FontSize="64" Foreground="#e1e1e9"></TextBlock>
+        <TextBlock VerticalAlignment="Center" FontSize="64" Foreground="#e1e1e9">+</TextBlock>
+        <TextBlock Text="{Binding AddendValue}" VerticalAlignment="Center" FontSize="64" Foreground="#e1e1e9"></TextBlock>
       </StackPanel>
-      <TextBlock Text="2" FontSize="64" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#e1e1e6"/>
+      <TextBlock Text="{Binding TestInput}" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom"></TextBlock>
     </Grid>
   </DockPanel>
 </Window>
+    
