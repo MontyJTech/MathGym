@@ -74,12 +74,12 @@ public partial class MainWindowViewModel : ReactiveObject
             HandleAnswerSubmitted();
         });
 
-        keyEvents.Select(e => e.Key).Where(key => key == Key.Enter).Subscribe(key =>
+        keyEvents.Where(e => e.Key == Key.Enter).Subscribe(key =>
         {
             HandleAnswerSubmitted();
         });
 
-        keyEvents.Select(e => e.Key).Where(key => key == Key.Back).Subscribe(key =>
+        keyEvents.Where(e => e.Key == Key.Back).Subscribe(key =>
         {
             if(TestInput.Length != 0)
             {
