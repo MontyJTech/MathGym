@@ -33,7 +33,7 @@
         <TextBlock VerticalAlignment="Center" FontSize="64" Foreground="#e1e1e9">+</TextBlock>
         <TextBlock Text="{Binding AddendValue}" VerticalAlignment="Center" FontSize="64" Foreground="#e1e1e9"></TextBlock>
       </StackPanel>
-      <TextBlock Text="{Binding TestInput}" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="48" Foreground="#e1e1e9"></TextBlock>
+      <TextBlock Text="{Binding UserInput}" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="48" Foreground="#e1e1e9"></TextBlock>
     </Grid>
   </DockPanel>
 </Window>

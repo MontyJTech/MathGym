@@ -5,43 +5,24 @@ using System;
 using System.Diagnostics;
 using System.Reactive.Linq;
 using Avalonia.Input;
-using System.Text.RegularExpressions;
 
 namespace MathGym.ViewModels;
 
 public partial class MainWindowViewModel : ReactiveObject
 {
     private Window window;
-    private Random randGenerator = new Random();
+    private BasicAddition basicAddition;
 
-    private string augendValue = "";
-    public string AugendValue
+    public int AugendValue => basicAddition.augend;
+    public int AddendValue => basicAddition.addend;
+    public string userInput;
+
+    public string UserInput
     {
-        get => augendValue;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref augendValue, value);
-        }
-    }
-
-    private string addendValue = "";
-
-    public string AddendValue
-    {
-        get => addendValue;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref addendValue, value);
-        }
-    }
-
-    private string testInput = "";
-    public string TestInput
-    {
-        get => testInput;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref testInput, value);
+        get => userInput;
+        set {
+            basicAddition.givenAnswer = value;
+            this.RaiseAndSetIfChanged(ref userInput, value);
         }
     }
 
@@ -53,7 +34,56 @@ public partial class MainWindowViewModel : ReactiveObject
     public MainWindowViewModel(Window window, IObservable<KeyEventArgs> keyEvents)
     {
         this.window = window;
+        basicAddition = new BasicAddition();
+        basicAddition.GenerateNewProblem();
 
+        InitializeKeybindings(keyEvents);
+
+
+        StartGame();
+    }
+
+    private void StartGame()
+    {
+        basicAddition.GenerateNewProblem();
+        this.RaisePropertyChanged(nameof(AugendValue));
+    }
+
+    private void HandleAnswerSubmitted()
+    {
+        if(basicAddition.CheckGivenAnswer())
+        {
+            HandleSuccessUI();
+        }
+        else
+        {
+            HandleFailureUI();
+        }
+    }
+
+    private void HandleSuccessUI()
+    {
+        Debug.WriteLine("Success!");
+        basicAddition.GenerateNewProblem();
+        UserInput = "";
+        RefreshUI();
+    }
+
+    private void HandleFailureUI()
+    {
+        Debug.WriteLine("Try Again!");
+        UserInput = "";
+        RefreshUI();
+    }
+
+    private void RefreshUI()
+    {
+        this.RaisePropertyChanged(nameof(AugendValue));
+        this.RaisePropertyChanged(nameof(AddendValue));
+    }
+
+    private void InitializeKeybindings(IObservable<KeyEventArgs> keyEvents)
+    {
         minimizeCommand = ReactiveCommand.Create(() =>
         {
             this.window.WindowState = WindowState.Minimized;
@@ -81,69 +111,16 @@ public partial class MainWindowViewModel : ReactiveObject
 
         keyEvents.Where(e => e.Key == Key.Back).Subscribe(key =>
         {
-            if(TestInput.Length != 0)
+            if (UserInput.Length != 0)
             {
-                string curInput = TestInput;
-                TestInput = curInput.Remove(curInput.Length - 1);
+                string curInput = UserInput;
+                UserInput = curInput.Remove(curInput.Length - 1);
             }
         });
 
         keyEvents.Select(e => e.Key).Where(key => (key >= Key.D0 && key <= Key.D9) || (key >= Key.NumPad0 && key <= Key.NumPad9)).Subscribe(key =>
         {
-            TestInput += key.ToString()[^1].ToString();
+            UserInput += key.ToString()[^1].ToString();
         });
-
-        StartGame();
-    }
-
-    private void StartGame()
-    {
-        GenerateNewProblem();
-    }
-
-    private void GenerateNewProblem()
-    {
-        AugendValue = randGenerator.Next(1, 10).ToString();
-        AddendValue = randGenerator.Next(1, 10).ToString();
-    }
-
-    private void Text_Changed(object? sender, TextChangedEventArgs e)
-    {
-        Debug.WriteLine("Hello");
-    }
-
-    private void HandleAnswerSubmitted()
-    {
-        int.TryParse(TestInput, out int givenValue);
-
-        if(givenValue == GetExpectedAnswer())
-        {
-            HandleSuccessUI();
-        }
-        else
-        {
-            HandleFailureUI();
-        }
-    }
-
-    private int GetExpectedAnswer()
-    {
-        int.TryParse(AugendValue, out int aug);
-        int.TryParse(AddendValue, out int add);
-
-        return aug + add;
-    }
-
-    private void HandleSuccessUI()
-    {
-        Debug.WriteLine("Success!");
-        GenerateNewProblem();
-        TestInput = "";
-    }
-
-    private void HandleFailureUI()
-    {
-        Debug.WriteLine("Try Again!");
-        TestInput = "";
     }
 }
