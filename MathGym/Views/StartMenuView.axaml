@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:MathGym.ViewModels;assembly=MathGym"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="MathGym.Views.StartMenuView"
+             x:DataType="vm:StartMenuViewModel">
+  <DockPanel Background="#1e1e1e">
+    <Button Background="White" Foreground="Red" HorizontalAlignment="Center" Command="{Binding InitGameCommand}">Begin</Button>
+  </DockPanel>
+</UserControl>

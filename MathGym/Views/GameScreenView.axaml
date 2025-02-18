@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:MathGym.ViewModels;assembly=MathGym"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="MathGym.Views.GameScreenView"
+             x:DataType="vm:GameScreenViewModel">
+  <DockPanel>
+    <Grid Background="#1e1e1e">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="0">
+        <TextBlock Text="{Binding AugendValue}" VerticalAlignment="Center" FontSize="64" Foreground="#e1e1e9"></TextBlock>
+        <TextBlock VerticalAlignment="Center" FontSize="64" Foreground="#e1e1e9">+</TextBlock>
+        <TextBlock Text="{Binding AddendValue}" VerticalAlignment="Center" FontSize="64" Foreground="#e1e1e9"></TextBlock>
+      </StackPanel>
+      <TextBlock Text="{Binding UserInput}" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="48" Foreground="#e1e1e9"></TextBlock>
+    </Grid>
+  </DockPanel>
+</UserControl>

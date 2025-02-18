@@ -10,8 +10,17 @@ class BasicAddition
 
     public void GenerateNewProblem()
     {
-        augend = random.Next(1, 10);
-        addend = random.Next(1, 10);
+        int newAugend = random.Next(1, 10);
+        int newAddend = random.Next(1, 10);
+
+        while(newAugend == augend && newAddend == addend)
+        {
+            newAugend = random.Next(1, 10);
+            newAddend = random.Next(1, 10);
+        }
+
+        augend = newAugend;
+        addend = newAddend;
     }
 
     public int GetAnswer()

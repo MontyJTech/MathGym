@@ -8,81 +8,43 @@ using Avalonia.Input;
 
 namespace MathGym.ViewModels;
 
-public partial class MainWindowViewModel : ReactiveObject
+public partial class MainWindowViewModel : ViewModelBase
 {
     private Window window;
-    private BasicAddition basicAddition;
-
-    public int AugendValue => basicAddition.augend;
-    public int AddendValue => basicAddition.addend;
-    public string userInput;
-
-    public string UserInput
+    private ViewModelBase currentView;
+    public ViewModelBase CurrentView
     {
-        get => userInput;
-        set {
-            basicAddition.givenAnswer = value;
-            this.RaiseAndSetIfChanged(ref userInput, value);
+        get => currentView;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref currentView, value);
         }
     }
+    
+    private GameScreenViewModel game;
 
     public ReactiveCommand<Unit, Unit> minimizeCommand { get; set;  }
     public ReactiveCommand<Unit, Unit> maximizeCommand { get; set; }
     public ReactiveCommand<Unit, Unit> closeCommand { get; set; }
-    public ReactiveCommand<Unit, Unit> submitAnswerCommand { get; set; }
+    
 
     public MainWindowViewModel(Window window, IObservable<KeyEventArgs> keyEvents)
     {
         this.window = window;
-        basicAddition = new BasicAddition();
-        basicAddition.GenerateNewProblem();
 
-        InitializeKeybindings(keyEvents);
-
-
-        StartGame();
+        CurrentView = new StartMenuViewModel(this);
+        game = new GameScreenViewModel(keyEvents);
+        
+        InitializeKeybindings();
     }
 
-    private void StartGame()
+    public void InitializeGameView()
     {
-        basicAddition.GenerateNewProblem();
-        this.RaisePropertyChanged(nameof(AugendValue));
+        CurrentView = game;
+        game.StartGame();
     }
 
-    private void HandleAnswerSubmitted()
-    {
-        if(basicAddition.CheckGivenAnswer())
-        {
-            HandleSuccessUI();
-        }
-        else
-        {
-            HandleFailureUI();
-        }
-    }
-
-    private void HandleSuccessUI()
-    {
-        Debug.WriteLine("Success!");
-        basicAddition.GenerateNewProblem();
-        UserInput = "";
-        RefreshUI();
-    }
-
-    private void HandleFailureUI()
-    {
-        Debug.WriteLine("Try Again!");
-        UserInput = "";
-        RefreshUI();
-    }
-
-    private void RefreshUI()
-    {
-        this.RaisePropertyChanged(nameof(AugendValue));
-        this.RaisePropertyChanged(nameof(AddendValue));
-    }
-
-    private void InitializeKeybindings(IObservable<KeyEventArgs> keyEvents)
+    private void InitializeKeybindings()
     {
         minimizeCommand = ReactiveCommand.Create(() =>
         {
@@ -97,30 +59,6 @@ public partial class MainWindowViewModel : ReactiveObject
         closeCommand = ReactiveCommand.Create(() =>
         {
             this.window.Close();
-        });
-
-        submitAnswerCommand = ReactiveCommand.Create(() =>
-        {
-            HandleAnswerSubmitted();
-        });
-
-        keyEvents.Where(e => e.Key == Key.Enter).Subscribe(key =>
-        {
-            HandleAnswerSubmitted();
-        });
-
-        keyEvents.Where(e => e.Key == Key.Back).Subscribe(key =>
-        {
-            if (UserInput.Length != 0)
-            {
-                string curInput = UserInput;
-                UserInput = curInput.Remove(curInput.Length - 1);
-            }
-        });
-
-        keyEvents.Select(e => e.Key).Where(key => (key >= Key.D0 && key <= Key.D9) || (key >= Key.NumPad0 && key <= Key.NumPad9)).Subscribe(key =>
-        {
-            UserInput += key.ToString()[^1].ToString();
         });
     }
 }
