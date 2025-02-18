@@ -5,8 +5,9 @@
              xmlns:vm="clr-namespace:MathGym.ViewModels;assembly=MathGym"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MathGym.Views.StartMenuView"
-             x:DataType="vm:StartMenuViewModel">
+             x:DataType="vm:StartMenuViewModel"
+             >
   <DockPanel Background="#1e1e1e">
-    <Button Background="White" Foreground="Red" HorizontalAlignment="Center" Command="{Binding InitGameCommand}">Begin</Button>
+    <Button Classes="CustomStyled" HorizontalAlignment="Center" Command="{Binding InitGameCommand}"> Begin </Button>
   </DockPanel>
 </UserControl>
